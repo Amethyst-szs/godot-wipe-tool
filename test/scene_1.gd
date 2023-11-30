@@ -1,10 +1,11 @@
-extends Node2D
+extends Control
 
 var time: float = 0
 signal time_passed
 
 func _ready():
-	WipeTool.wipe(WipeTool.WipeType.fade, WipeTool.WipeType.fade, 2.0, time_passed)
+	WipeTool.wipe_duration = 2.0
+	WipeTool.wipe_with_scene_change("res://test/scene_2.tscn")
 
 func _process(delta: float):
 	time += delta

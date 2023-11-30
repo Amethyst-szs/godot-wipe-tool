@@ -45,6 +45,7 @@ script = ExtResource("1_jp4e8")
 
 [node name="Panel" type="ColorRect" parent="."]
 visible = false
+modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

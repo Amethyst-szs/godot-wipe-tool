@@ -2,5 +2,7 @@
 
 [ext_resource type="Script" path="res://test/scene_1.gd" id="1_tbpjw"]
 
-[node name="Node" type="Node2D"]
+[node name="Scene" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_tbpjw")
