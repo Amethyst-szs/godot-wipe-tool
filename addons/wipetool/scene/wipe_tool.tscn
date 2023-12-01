@@ -14,7 +14,6 @@ shader_parameter/swipe_dir = Vector2(-1, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tmbik"]
 shader = ExtResource("3_m08re")
-shader_parameter/fade_dir = Vector2(0.48, 0)
 shader_parameter/is_use_swipe = false
 shader_parameter/swipe_pos = 0.0
 shader_parameter/swipe_dir = Vector2(-1, 0)
