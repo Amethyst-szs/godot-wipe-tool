@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cl1b3gtsgnlvh"]
+[gd_scene load_steps=16 format=3 uid="uid://cl1b3gtsgnlvh"]
 
 [ext_resource type="Script" path="res://addons/wipetool/backend/wipe_tool.gd" id="1_jp4e8"]
 
@@ -320,14 +320,71 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_17ttu"]
+resource_name = "in_crossfade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_jjuaj"]
+resource_name = "out_crossfade"
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ViewCapture:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.99, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ViewCapture:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.99),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ViewCapture:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.99),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_joaoj"]
 _data = {
 "RESET": SubResource("Animation_p40te"),
+"in_crossfade": SubResource("Animation_17ttu"),
 "in_fade": SubResource("Animation_3kr6l"),
 "in_slide_down": SubResource("Animation_1wo24"),
 "in_slide_left": SubResource("Animation_14oac"),
 "in_slide_right": SubResource("Animation_kwdpr"),
 "in_slide_up": SubResource("Animation_oe5lh"),
+"out_crossfade": SubResource("Animation_jjuaj"),
 "out_fade": SubResource("Animation_t1ijw"),
 "out_slide_down": SubResource("Animation_njq2j"),
 "out_slide_left": SubResource("Animation_11pep"),

@@ -6,6 +6,7 @@ class_name WipeToolPlugin
 ## Every type of wipe in the animation player
 enum WipeType {
 	fade,
+	crossfade,
 	slide_left,
 	slide_right,
 	slide_up,
@@ -181,16 +182,21 @@ func wipe_with_scene_change(scene_path: String):
 	# Start loading the scene data on another thread
 	_threaded_load(scene_path)
 	
-	# Create composited signal
-	var comp_signal := CompositeSignal.new()
-	comp_signal.add_signals([async_load_finished, anim_player.animation_finished])
+	# If using the "in_crossfade" type, skip the animation altogether
+	if not wipe_in_type == WipeType.crossfade:
+		# Create composited signal
+		var comp_signal := CompositeSignal.new()
+		comp_signal.add_signals([async_load_finished, anim_player.animation_finished])
 	
-	# Play the in animation, wait for the anim and scene load to finish
-	anim_player.play(in_string, -1, 1.0 / wipe_duration)
-	await comp_signal.composite_complete
+		# Play the in animation, wait for the anim and scene load to finish
+		anim_player.play(in_string, -1, 1.0 / wipe_duration)
+		await comp_signal.composite_complete
+	else:
+		await async_load_finished
 	
-	# Swap scenes
-	_uncapture_viewport()
+	# Swap scenes, skipping uncapturing the viewport if using the crossfade out type
+	if not wipe_out_type == WipeType.crossfade:
+		_uncapture_viewport()
 	get_tree().change_scene_to_packed(ResourceLoader.load_threaded_get(scene_path))
 	get_tree().paused = false
 	
