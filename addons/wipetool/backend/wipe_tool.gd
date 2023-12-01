@@ -83,7 +83,7 @@ func wipe_close():
 ## Open wipe, will play animation even if wipe was not closed
 func wipe_open():
 	# Play the out/opening animation with no condition
-	var out_string: String = "out_" + WipeType.keys()[wipe_in_type]
+	var out_string: String = "out_" + WipeType.keys()[wipe_out_type]
 	
 	anim_player.play("RESET")
 	await anim_player.animation_finished
