@@ -47,7 +47,7 @@ func _on_button_condition_pressed():
 	WipeTool.wipe_with_signal(mouse_button)
 
 func _on_button_scene_pressed():
-	WipeTool.wipe_with_scene_change("res://test/scene_1.tscn")
+	WipeTool.wipe_with_scene_change("res://example/scene_1.tscn")
 
 func _on_button_scene_other_pressed():
-	WipeTool.wipe_with_scene_change("res://test/scene_2.tscn")
+	WipeTool.wipe_with_scene_change("res://example/scene_2.tscn")
