@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Wipe Tool Plugin"
+config/tags=PackedStringArray("plugin")
 run/main_scene="res://test/scene_1.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"

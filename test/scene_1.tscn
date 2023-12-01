@@ -4,5 +4,166 @@
 
 [node name="Scene" type="Control"]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_tbpjw")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="PanelContainer" type="PanelContainer" parent="Margin"]
+layout_mode = 2
+
+[node name="Sub-Margin" type="MarginContainer" parent="Margin/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBox" type="VBoxContainer" parent="Margin/PanelContainer/Sub-Margin"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+layout_mode = 2
+text = "WipeTool Testing Scene (1)"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="LabelDuration" type="Label" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+layout_mode = 2
+text = "Duration of Transition:"
+horizontal_alignment = 1
+
+[node name="SliderDuration" type="HSlider" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 3.0
+step = 0.1
+value = 1.0
+
+[node name="HSeparator2" type="HSeparator" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="LabelInOut" type="Label" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+layout_mode = 2
+text = "In/Out Type:"
+horizontal_alignment = 1
+
+[node name="HBoxInOut" type="HBoxContainer" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="LabelIn" type="Label" parent="Margin/PanelContainer/Sub-Margin/VBox/HBoxInOut"]
+layout_mode = 2
+text = "In: "
+horizontal_alignment = 1
+
+[node name="OptionIn" type="OptionButton" parent="Margin/PanelContainer/Sub-Margin/VBox/HBoxInOut"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="Margin/PanelContainer/Sub-Margin/VBox/HBoxInOut"]
+layout_mode = 2
+theme_override_constants/separation = 35
+
+[node name="LabelOut" type="Label" parent="Margin/PanelContainer/Sub-Margin/VBox/HBoxInOut"]
+layout_mode = 2
+text = "Out: "
+horizontal_alignment = 1
+
+[node name="OptionOut" type="OptionButton" parent="Margin/PanelContainer/Sub-Margin/VBox/HBoxInOut"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HSeparator3" type="HSeparator" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="LabelColor" type="Label" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+layout_mode = 2
+text = "Transition Color:"
+horizontal_alignment = 1
+
+[node name="ButtonColor" type="ColorPickerButton" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Transition Color"
+edit_alpha = false
+
+[node name="HSeparator4" type="HSeparator" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Grid" type="GridContainer" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+layout_mode = 2
+columns = 3
+
+[node name="ButtonClose" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+tooltip_text = "Fade in wipe with current settings"
+text = "Wipe Close"
+
+[node name="ButtonOpen" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+tooltip_text = "Fade out wipe with current settings"
+text = "Wipe Open"
+
+[node name="ButtonCloseOpen" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+tooltip_text = "Fade in and out wipe with current settings"
+text = "Wipe Close and Open"
+
+[node name="ButtonCondition" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+tooltip_text = "Fade in and out wipe with current settings, but it'll only open after clicking the mouse"
+text = "Wipe w/ Condition"
+
+[node name="ButtonScene" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+tooltip_text = "Wipe and reload this scene"
+text = "Wipe to Scene (Self)"
+
+[node name="ButtonSceneOther" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+tooltip_text = "Wipe and go to a different scene"
+text = "Wipe to Scene (Other)"
+
+[connection signal="value_changed" from="Margin/PanelContainer/Sub-Margin/VBox/SliderDuration" to="." method="_on_slider_duration_value_changed"]
+[connection signal="item_selected" from="Margin/PanelContainer/Sub-Margin/VBox/HBoxInOut/OptionIn" to="." method="_on_option_in_item_selected"]
+[connection signal="item_selected" from="Margin/PanelContainer/Sub-Margin/VBox/HBoxInOut/OptionOut" to="." method="_on_option_out_item_selected"]
+[connection signal="color_changed" from="Margin/PanelContainer/Sub-Margin/VBox/ButtonColor" to="." method="_on_button_color_color_changed"]
+[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonClose" to="." method="_on_button_close_pressed"]
+[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonOpen" to="." method="_on_button_open_pressed"]
+[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonCloseOpen" to="." method="_on_button_close_open_pressed"]
+[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonCondition" to="." method="_on_button_condition_pressed"]
+[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonScene" to="." method="_on_button_scene_pressed"]
+[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonSceneOther" to="." method="_on_button_scene_other_pressed"]

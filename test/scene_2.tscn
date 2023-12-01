@@ -1,9 +1,26 @@
 [gd_scene load_steps=2 format=3 uid="uid://4vuejy3j3a3e"]
 
-[ext_resource type="Texture2D" uid="uid://detuho1x5rhvk" path="res://icon.svg" id="1_o1n36"]
+[ext_resource type="Script" path="res://test/scene_2.gd" id="1_fb24m"]
 
-[node name="Scene2" type="Node2D"]
+[node name="Scene2" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fb24m")
 
-[node name="Icon" type="Sprite2D" parent="."]
-position = Vector2(219, 202)
-texture = ExtResource("1_o1n36")
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Return to main scene"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
