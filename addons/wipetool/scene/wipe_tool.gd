@@ -13,6 +13,10 @@ enum WipeType {
 	
 	CAPTURE_TRANSITIONS, # All wipes after this point capture the viewport
 	crossfade,
+	swipe_left,
+	swipe_right,
+	swipe_up,
+	swipe_down
 }
 
 # Signals
@@ -60,6 +64,8 @@ var wipe_out_type: WipeType = WipeType.fade
 
 func _ready() -> void:
 	wipe_is_visible = false
+	view_capture.visible = false
+	anim_player.play("RESET")
 
 func _process(_delta: float) -> void:
 	# If a new target scene is set, check it every frame to see if the load is finished
