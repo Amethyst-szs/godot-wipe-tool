@@ -6,12 +6,12 @@ signal mouse_button
 @onready var option_out: OptionButton = %OptionOut
 
 func _ready():
-	for wipe_type in range(WipeTool.WipeType.size()):		
-		option_in.add_item(WipeTool.WipeType.keys()[wipe_type], wipe_type)
-		option_out.add_item(WipeTool.WipeType.keys()[wipe_type], wipe_type)
+	for wipe_type in range(Wipe.Type.size()):		
+		option_in.add_item(Wipe.Type.keys()[wipe_type], wipe_type)
+		option_out.add_item(Wipe.Type.keys()[wipe_type], wipe_type)
 	
-	option_in.set_item_disabled(WipeTool.WipeType.CAPTURE_TRANSITIONS, true)
-	option_out.set_item_disabled(WipeTool.WipeType.CAPTURE_TRANSITIONS, true)
+	option_in.set_item_disabled(Wipe.Type.CAPTURE_TRANSITIONS, true)
+	option_out.set_item_disabled(Wipe.Type.CAPTURE_TRANSITIONS, true)
 	
 	%SliderDuration.value = WipeTool.wipe_duration
 	%OptionIn.selected = WipeTool.wipe_in_type
