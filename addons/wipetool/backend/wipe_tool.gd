@@ -3,12 +3,7 @@ extends CanvasLayer
 ## A simple system for managing transitions between scenes and during scenes
 class_name WipeToolPlugin
 
-# Node References
-@onready var panel: ColorRect = $Panel
-@onready var anim_player: AnimationPlayer = $PanelAnim
-@onready var view_capture: TextureRect = $ViewCapture
-
-## Type of wipe used for the animation player
+## Every type of wipe in the animation player
 enum WipeType {
 	fade,
 	slide_left,
@@ -17,15 +12,23 @@ enum WipeType {
 	slide_down
 }
 
-#region Signals
+# Signals
 
 ## Signal notifying that the async scene loading is completed
 signal async_load_finished
 
-#endregion
+# Node References
+
+## ColorRect used for the wipe animations
+@onready var panel: ColorRect = $Panel
+## AnimationPlayer for every kind of wipe the WipeTool can play
+@onready var anim_player: AnimationPlayer = $PanelAnim
+## TextureRect that contains a screenshot of the viewport during scene transitions
+@onready var view_capture: TextureRect = $ViewCapture
 
 #region Wipe Parameters
 
+## Is the wipe ColorRect currently visible? Set by methods, not meant to be manually changed
 var wipe_is_visible: bool = false:
 	set(value):
 		panel.visible = value
@@ -33,6 +36,7 @@ var wipe_is_visible: bool = false:
 	get:
 		return wipe_is_visible
 
+## Color of ColorRect used in the wipe animations
 var wipe_color: Color = Color.BLACK:
 	set(value):
 		panel.color = value
@@ -40,11 +44,12 @@ var wipe_color: Color = Color.BLACK:
 	get:
 		return wipe_color
 
+## Amount of time in seconds that the wipe transition lasts
 var wipe_duration: float = 1.0
+## Animation to play when closing the wipe
 var wipe_in_type: WipeType = WipeType.fade
+## Animation to play when opening the wipe
 var wipe_out_type: WipeType = WipeType.fade
-
-var wipe_new_scene_path: String
 
 #endregion
 
@@ -64,6 +69,7 @@ func _process(_delta: float) -> void:
 
 #region Mid-Scene Wipe Methods
 
+## Close wipe, will not automatically open until "wipe_open" is called
 func wipe_close():
 	# Play the in/closing animation with no condition, end-user is expected to open it again themselves
 	var in_string: String = "in_" + WipeType.keys()[wipe_in_type]
@@ -73,7 +79,8 @@ func wipe_close():
 	wipe_is_visible = true
 	
 	anim_player.play(in_string, -1, 1.0 / wipe_duration)
-	
+
+## Open wipe, will play animation even if wipe was not closed
 func wipe_open():
 	# Play the out/opening animation with no condition
 	var out_string: String = "out_" + WipeType.keys()[wipe_in_type]
@@ -87,6 +94,7 @@ func wipe_open():
 	
 	wipe_is_visible = false
 
+## Close the wipe, and once the close completes, instantly open it again
 func wipe_close_and_open():
 	# Convert the in_type and out_type to strings
 	var in_string: String = "in_" + WipeType.keys()[wipe_in_type]
@@ -106,6 +114,7 @@ func wipe_close_and_open():
 	# Reset flag for wipe visibility
 	wipe_is_visible = false
 
+## Close the wipe, wait for the signal to be emitted, and then open it
 func wipe_with_signal(open_condition: Signal):
 	# Convert the in_type and out_type to strings
 	var in_string: String = "in_" + WipeType.keys()[wipe_in_type]
@@ -133,19 +142,26 @@ func wipe_with_signal(open_condition: Signal):
 
 #region Scene Transition Methods
 
+## String containing path of new scene being async loaded, not meant for end-user
+var wipe_new_scene_path: String
+
+# Start loading new scene on thread
 func _threaded_load(scene_path: String):
 	ResourceLoader.load_threaded_request(scene_path)
 	wipe_new_scene_path = scene_path
 
+# Create screenshot of viewport and set view_capture to that image
 func _capture_viewport():
 	var image: Image = get_viewport().get_texture().get_image()
 	view_capture.visible = true
 	view_capture.texture = ImageTexture.create_from_image(image)
 
+# Destroy sceenshot of viewport and hide view_capture
 func _uncapture_viewport():
 	view_capture.visible = false
 	view_capture.texture = null
 
+## Close wipe, wait for animation and new scene load, then open wipe
 func wipe_with_scene_change(scene_path: String):
 	# Pause scene to prevent user changing anything during wipe in
 	get_tree().paused = true
