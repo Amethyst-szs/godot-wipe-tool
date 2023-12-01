@@ -71,7 +71,7 @@ func _process(_delta: float) -> void:
 #region Mid-Scene Wipe Methods
 
 ## Close wipe, will not automatically open until "wipe_open" is called
-func wipe_close():
+func wipe_close() -> void:
 	# Play the in/closing animation with no condition, end-user is expected to open it again themselves
 	var in_string: String = "in_" + WipeType.keys()[wipe_in_type]
 	
@@ -82,7 +82,7 @@ func wipe_close():
 	anim_player.play(in_string, -1, 1.0 / wipe_duration)
 
 ## Open wipe, will play animation even if wipe was not closed
-func wipe_open():
+func wipe_open() -> void:
 	# Play the out/opening animation with no condition
 	var out_string: String = "out_" + WipeType.keys()[wipe_out_type]
 	
@@ -96,7 +96,7 @@ func wipe_open():
 	wipe_is_visible = false
 
 ## Close the wipe, and once the close completes, instantly open it again
-func wipe_close_and_open():
+func wipe_close_and_open() -> void:
 	# Convert the in_type and out_type to strings
 	var in_string: String = "in_" + WipeType.keys()[wipe_in_type]
 	var out_string: String = "out_" + WipeType.keys()[wipe_out_type]
@@ -116,7 +116,7 @@ func wipe_close_and_open():
 	wipe_is_visible = false
 
 ## Close the wipe, wait for the signal to be emitted, and then open it
-func wipe_with_signal(open_condition: Signal):
+func wipe_with_signal(open_condition: Signal) -> void:
 	# Convert the in_type and out_type to strings
 	var in_string: String = "in_" + WipeType.keys()[wipe_in_type]
 	var out_string: String = "out_" + WipeType.keys()[wipe_out_type]
@@ -147,23 +147,23 @@ func wipe_with_signal(open_condition: Signal):
 var wipe_new_scene_path: String
 
 # Start loading new scene on thread
-func _threaded_load(scene_path: String):
+func _threaded_load(scene_path: String) -> void:
 	ResourceLoader.load_threaded_request(scene_path)
 	wipe_new_scene_path = scene_path
 
 # Create screenshot of viewport and set view_capture to that image
-func _capture_viewport():
+func _capture_viewport() -> void:
 	var image: Image = get_viewport().get_texture().get_image()
 	view_capture.visible = true
 	view_capture.texture = ImageTexture.create_from_image(image)
 
 # Destroy sceenshot of viewport and hide view_capture
-func _uncapture_viewport():
+func _uncapture_viewport() -> void:
 	view_capture.visible = false
 	view_capture.texture = null
 
 ## Close wipe, wait for animation and new scene load, then open wipe
-func wipe_with_scene_change(scene_path: String):
+func wipe_with_scene_change(scene_path: String) -> void:
 	# Pause scene to prevent user changing anything during wipe in
 	get_tree().paused = true
 	
