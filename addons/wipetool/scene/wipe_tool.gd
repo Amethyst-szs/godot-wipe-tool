@@ -6,11 +6,13 @@ class_name WipeToolPlugin
 ## Every type of wipe in the animation player
 enum WipeType {
 	fade,
-	crossfade,
 	slide_left,
 	slide_right,
 	slide_up,
-	slide_down
+	slide_down,
+	
+	CAPTURE_TRANSITIONS, # All wipes after this point capture the viewport
+	crossfade,
 }
 
 # Signals
@@ -79,7 +81,11 @@ func wipe_close() -> void:
 	await anim_player.animation_finished
 	wipe_is_visible = true
 	
-	anim_player.play(in_string, -1, 1.0 / wipe_duration)
+	# If the wipe type is a standard non-capture transition, play animation here
+	if wipe_in_type < WipeType.CAPTURE_TRANSITIONS:
+		anim_player.play(in_string, -1, 1.0 / wipe_duration)
+	else: # If the wipe is a capture transition, capture viewport here
+		_capture_viewport()
 
 ## Open wipe, will play animation even if wipe was not closed
 func wipe_open() -> void:
@@ -93,7 +99,9 @@ func wipe_open() -> void:
 	anim_player.play(out_string, -1, 1.0 / wipe_duration)
 	await anim_player.animation_finished
 	
+	# Reset flag for wipe visibility and force uncapture viewport
 	wipe_is_visible = false
+	_uncapture_viewport()
 
 ## Close the wipe, and once the close completes, instantly open it again
 func wipe_close_and_open() -> void:
@@ -107,13 +115,20 @@ func wipe_close_and_open() -> void:
 	wipe_is_visible = true
 	
 	# Play the in animation, wait for the animation to finish, then play the out animation
-	anim_player.play(in_string, -1, 1.0 / wipe_duration)
-	await anim_player.animation_finished
+	
+	# If the wipe type is a standard non-capture transition, play in animation
+	if wipe_in_type < WipeType.CAPTURE_TRANSITIONS:
+		anim_player.play(in_string, -1, 1.0 / wipe_duration)
+		await anim_player.animation_finished
+	else: # If the wipe is a capture transition, capture viewport here
+		_capture_viewport()
+		
 	anim_player.play(out_string, -1, 1.0 / wipe_duration)
 	await anim_player.animation_finished
 	
-	# Reset flag for wipe visibility
+	# Reset flag for wipe visibility and force uncapture viewport
 	wipe_is_visible = false
+	_uncapture_viewport()
 
 ## Close the wipe, wait for the signal to be emitted, and then open it
 func wipe_with_signal(open_condition: Signal) -> void:
@@ -126,18 +141,25 @@ func wipe_with_signal(open_condition: Signal) -> void:
 	await anim_player.animation_finished
 	wipe_is_visible = true
 	
-	# Create composited signal
-	var comp_signal := CompositeSignal.new()
-	comp_signal.add_signals([open_condition, anim_player.animation_finished])
+	# If the wipe type is a standard non-capture transition, play in animation here
+	if wipe_in_type < WipeType.CAPTURE_TRANSITIONS:
+		# Create composited signal
+		var comp_signal := CompositeSignal.new()
+		comp_signal.add_signals([open_condition, anim_player.animation_finished])
 	
-	# Play the in animation, wait for the open_condition signal and anim, then play the out animation
-	anim_player.play(in_string, -1, 1.0 / wipe_duration)
-	await comp_signal.composite_complete
+		# Play the in animation, wait for the open_condition signal and anim, then play the out animation
+		anim_player.play(in_string, -1, 1.0 / wipe_duration)
+		await comp_signal.composite_complete
+	else: # If the wipe is a capture transition, capture viewport here and wait for condition
+		_capture_viewport()
+		await open_condition
+		
 	anim_player.play(out_string, -1, 1.0 / wipe_duration)
 	await anim_player.animation_finished
 	
-	# Reset flag for wipe visibility
+	# Reset flag for wipe visibility and force uncapture viewport
 	wipe_is_visible = false
+	_uncapture_viewport()
 
 #endregion
 
@@ -182,8 +204,8 @@ func wipe_with_scene_change(scene_path: String) -> void:
 	# Start loading the scene data on another thread
 	_threaded_load(scene_path)
 	
-	# If using the "in_crossfade" type, skip the animation altogether
-	if not wipe_in_type == WipeType.crossfade:
+	# If the wipe type is a standard non-capture transition, play animation here
+	if wipe_in_type < WipeType.CAPTURE_TRANSITIONS:
 		# Create composited signal
 		var comp_signal := CompositeSignal.new()
 		comp_signal.add_signals([async_load_finished, anim_player.animation_finished])
@@ -194,8 +216,8 @@ func wipe_with_scene_change(scene_path: String) -> void:
 	else:
 		await async_load_finished
 	
-	# Swap scenes, skipping uncapturing the viewport if using the crossfade out type
-	if not wipe_out_type == WipeType.crossfade:
+	# Swap scenes, skipping uncapturing the viewport if using a scene transition
+	if wipe_out_type < WipeType.CAPTURE_TRANSITIONS:
 		_uncapture_viewport()
 	get_tree().change_scene_to_packed(ResourceLoader.load_threaded_get(scene_path))
 	get_tree().paused = false
@@ -204,7 +226,8 @@ func wipe_with_scene_change(scene_path: String) -> void:
 	anim_player.play(out_string, -1, 1.0 / wipe_duration)
 	await anim_player.animation_finished
 	
-	# Reset flag for wipe visibility
+	# Reset flag for wipe visibility and force uncapture viewport
 	wipe_is_visible = false
+	_uncapture_viewport()
 
 #endregion

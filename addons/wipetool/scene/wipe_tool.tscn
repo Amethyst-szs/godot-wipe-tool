@@ -1,6 +1,20 @@
-[gd_scene load_steps=16 format=3 uid="uid://cl1b3gtsgnlvh"]
+[gd_scene load_steps=19 format=3 uid="uid://cl1b3gtsgnlvh"]
 
-[ext_resource type="Script" path="res://addons/wipetool/backend/wipe_tool.gd" id="1_jp4e8"]
+[ext_resource type="Script" path="res://addons/wipetool/scene/wipe_tool.gd" id="1_jp4e8"]
+[ext_resource type="Shader" path="res://addons/wipetool/shader/viewport_capture.gdshader" id="2_4f3lm"]
+[ext_resource type="Shader" path="res://addons/wipetool/shader/wipe_panel.gdshader" id="3_m08re"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_757ps"]
+shader = ExtResource("2_4f3lm")
+shader_parameter/is_use_swipe = false
+shader_parameter/swipe_pos = 0.0
+shader_parameter/swipe_dir = Vector2(-1, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tmbik"]
+shader = ExtResource("3_m08re")
+shader_parameter/is_use_swipe = false
+shader_parameter/swipe_pos = 0.0
+shader_parameter/swipe_dir = Vector2(-1, 0)
 
 [sub_resource type="Animation" id="Animation_p40te"]
 resource_name = "RESET"
@@ -60,21 +74,6 @@ tracks/4/path = NodePath("Panel:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_17ttu"]
-resource_name = "in_crossfade"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Panel:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -378,7 +377,6 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_joaoj"]
 _data = {
 "RESET": SubResource("Animation_p40te"),
-"in_crossfade": SubResource("Animation_17ttu"),
 "in_fade": SubResource("Animation_3kr6l"),
 "in_slide_down": SubResource("Animation_1wo24"),
 "in_slide_left": SubResource("Animation_14oac"),
@@ -399,6 +397,7 @@ follow_viewport_enabled = true
 script = ExtResource("1_jp4e8")
 
 [node name="ViewCapture" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_757ps")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -408,6 +407,7 @@ mouse_filter = 2
 
 [node name="Panel" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)
+material = SubResource("ShaderMaterial_tmbik")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
