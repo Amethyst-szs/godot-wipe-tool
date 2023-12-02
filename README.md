@@ -1,5 +1,5 @@
 # Godot Wipe Tool Plugin
-*A plugin for Godot for simple and clean transitions between and during scenes*  
+*A plugin for Godot adding simple and clean transitions between and during scenes*  
 ![Animated GIF showing scene transitions in Godot](https://github.com/Amethyst-szs/godot-wipe-tool/assets/62185604/e9778690-23d4-4c7d-af91-90158dd73099)  
 
 ## Info
