@@ -67,8 +67,12 @@ func wipe_open() -> void:
 	
 	_update_shader_params(param.wipe_circle_out_pos)
 	
-	anim_player.play(out_string, -1, 1.0 / param.wipe_duration)
-	await anim_player.animation_finished
+	# Play out animation if type is not NONE
+	if not param.wipe_out_type == Wipe.Type.NONE:
+		anim_player.play(out_string, -1, 1.0 / param.wipe_duration)
+		await anim_player.animation_finished
+	else:
+		anim_player.play("RESET")
 	
 	# Reset flag for wipe visibility and force uncapture viewport
 	param.wipe_is_visible = false
@@ -94,12 +98,17 @@ func wipe_close_and_open() -> void:
 		anim_player.play(in_string, -1, 1.0 / param.wipe_duration)
 		await anim_player.animation_finished
 	else: # If the wipe is a capture transition, capture viewport here
-		_capture_viewport()
+		if not param.wipe_in_type == Wipe.Type.NONE:
+			_capture_viewport()
 	
 	_update_shader_params(param.wipe_circle_out_pos)
 		
-	anim_player.play(out_string, -1, 1.0 / param.wipe_duration)
-	await anim_player.animation_finished
+	# Play out animation if type is not NONE
+	if not param.wipe_out_type == Wipe.Type.NONE:
+		anim_player.play(out_string, -1, 1.0 / param.wipe_duration)
+		await anim_player.animation_finished
+	else:
+		anim_player.play("RESET")
 	
 	# Reset flag for wipe visibility and force uncapture viewport
 	param.wipe_is_visible = false
@@ -134,9 +143,13 @@ func wipe_with_signal(open_condition: Signal) -> void:
 		await open_condition
 	
 	_update_shader_params(param.wipe_circle_out_pos)
-		
-	anim_player.play(out_string, -1, 1.0 / param.wipe_duration)
-	await anim_player.animation_finished
+	
+	# Play out animation if type is not NONE
+	if not param.wipe_out_type == Wipe.Type.NONE:
+		anim_player.play(out_string, -1, 1.0 / param.wipe_duration)
+		await anim_player.animation_finished
+	else:
+		anim_player.play("RESET")
 	
 	# Reset flag for wipe visibility and force uncapture viewport
 	param.wipe_is_visible = false
@@ -207,9 +220,12 @@ func wipe_with_scene_change(scene_path: String) -> void:
 	
 	_update_shader_params(param.wipe_circle_out_pos)
 	
-	# Open wipe now that scene has been loaded
-	anim_player.play(out_string, -1, 1.0 / param.wipe_duration)
-	await anim_player.animation_finished
+	# Play out animation if type is not NONE
+	if not param.wipe_out_type == Wipe.Type.NONE:
+		anim_player.play(out_string, -1, 1.0 / param.wipe_duration)
+		await anim_player.animation_finished
+	else:
+		anim_player.play("RESET")
 	
 	# Reset flag for wipe visibility and force uncapture viewport
 	param.wipe_is_visible = false
