@@ -13,6 +13,11 @@ uniform bool is_circle_invert = false;
 uniform vec2 circle_pos = vec2(0.f);
 uniform float circle_size = 0.f;
 
+// Noise transitions vars
+uniform bool is_use_noise = false;
+uniform float noise_pos = 0.f;
+uniform sampler2D noise_pattern;
+
 float handle_horizontal(vec2 uv) {
 	// Offset swipe pos by factor of swipe_angle
 	float swipe_pos_offset = swipe_pos * (1.f + swipe_angle);
@@ -72,5 +77,8 @@ void fragment() {
 		float edge = distance(uv_ratio, circle_pos_ratio);
 		float edgestep = step(edge, circle_size_ratio);
 		COLOR.a = is_circle_invert ? edgestep : 1.f - edgestep;
+	} else if (is_use_noise) {
+		float noiseValue = texture(noise_pattern, SCREEN_UV).x;
+    	COLOR.a = smoothstep(noiseValue, 1.f, noise_pos);
 	}
 }
