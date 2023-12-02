@@ -10,6 +10,7 @@ enum Type {
 	slide_up,
 	slide_down,
 	circle,
+	circle_invert,
 	
 	CAPTURE_TRANSITIONS, # All wipes after this point will always capture the viewport
 	crossfade,

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cl1b3gtsgnlvh"]
+[gd_scene load_steps=28 format=3 uid="uid://cl1b3gtsgnlvh"]
 
 [ext_resource type="Script" path="res://addons/wipetool/scene/wipe_tool.gd" id="1_jp4e8"]
 [ext_resource type="Shader" path="res://addons/wipetool/shader/viewport_capture.gdshader" id="2_4f3lm"]
@@ -18,7 +18,7 @@ shader_parameter/is_use_swipe = false
 shader_parameter/swipe_pos = 0.0
 shader_parameter/swipe_dir = Vector2(-1, 0)
 shader_parameter/is_use_circle = false
-shader_parameter/is_circle_in = true
+shader_parameter/is_circle_invert = true
 shader_parameter/circle_pos = Vector2(0, 0)
 shader_parameter/circle_size = 0.0
 
@@ -1037,14 +1037,14 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Panel:material:shader_parameter/is_circle_in")
+tracks/2/path = NodePath("Panel:material:shader_parameter/is_circle_invert")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -1088,7 +1088,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Panel:material:shader_parameter/is_circle_in")
+tracks/2/path = NodePath("Panel:material:shader_parameter/is_circle_invert")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -1096,6 +1096,120 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Panel:material:shader_parameter/circle_size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1.62451, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Panel:material:shader_parameter/is_use_swipe")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_yg1jo"]
+resource_name = "in_circle_invert"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel:material:shader_parameter/is_use_circle")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel:material:shader_parameter/is_circle_invert")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Panel:material:shader_parameter/circle_size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.435275, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_bqbbx"]
+resource_name = "out_circle_invert"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel:material:shader_parameter/is_use_circle")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel:material:shader_parameter/is_circle_invert")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -1126,12 +1240,14 @@ tracks/4/keys = {
 _data = {
 "RESET": SubResource("Animation_p40te"),
 "in_circle": SubResource("Animation_fpoym"),
+"in_circle_invert": SubResource("Animation_yg1jo"),
 "in_fade": SubResource("Animation_3kr6l"),
 "in_slide_down": SubResource("Animation_1wo24"),
 "in_slide_left": SubResource("Animation_14oac"),
 "in_slide_right": SubResource("Animation_kwdpr"),
 "in_slide_up": SubResource("Animation_oe5lh"),
 "out_circle": SubResource("Animation_jdieo"),
+"out_circle_invert": SubResource("Animation_bqbbx"),
 "out_crossfade": SubResource("Animation_jjuaj"),
 "out_fade": SubResource("Animation_t1ijw"),
 "out_slide_down": SubResource("Animation_njq2j"),

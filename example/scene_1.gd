@@ -55,14 +55,14 @@ func _on_slider_duration_value_changed(value):
 func _on_option_in_item_selected(index):
 	WipeTool.param.wipe_in_type = index
 	
-	var is_circle_mode: bool = index == Wipe.Type.circle
+	var is_circle_mode: bool = (index == Wipe.Type.circle or index == Wipe.Type.circle_invert)
 	%CircleInX.visible = is_circle_mode
 	%CircleInY.visible = is_circle_mode
 
 func _on_option_out_item_selected(index):
 	WipeTool.param.wipe_out_type = index
 	
-	var is_circle_mode: bool = index == Wipe.Type.circle
+	var is_circle_mode: bool = (index == Wipe.Type.circle or index == Wipe.Type.circle_invert)
 	%CircleOutX.visible = is_circle_mode
 	%CircleOutY.visible = is_circle_mode
 	

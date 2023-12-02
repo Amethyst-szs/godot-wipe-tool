@@ -9,7 +9,7 @@ const float swipe_thickness = 0.15f;
 
 // Circle transition vars
 uniform bool is_use_circle = false;
-uniform bool is_circle_in = true;
+uniform bool is_circle_invert = false;
 uniform vec2 circle_pos = vec2(0.f);
 uniform float circle_size = 0.f;
 
@@ -71,6 +71,6 @@ void fragment() {
 		// Calculate the edge and alpha
 		float edge = distance(uv_ratio, circle_pos_ratio);
 		float edgestep = step(edge, circle_size_ratio);
-		COLOR.a = is_circle_in ? 1.f - edgestep : edgestep;
+		COLOR.a = is_circle_invert ? edgestep : 1.f - edgestep;
 	}
 }
