@@ -17,6 +17,11 @@ signal async_load_finished
 ## All parameters configuring how the wipe transition looks
 @onready var param: WipeParams = WipeParams.new(panel)
 
+## Dictionary for wipe param presets created by the end-user.
+## Recommended for commonly used transitions so it's easier to update them later and switch on the fly.
+## Modify using the preset functions, don't directly push to this dictionary yourself.
+var param_presets: Dictionary = {}
+
 #region Built-in Methods
 
 func _ready() -> void:
@@ -233,6 +238,33 @@ func param_type_both(wipe_type: Wipe.Type) -> void:
 ## Update the circle transition's position, and optionally enable the circle type for in and out
 func param_circle(in_pos: Vector2, out_pos: Vector2, enable_circle_type: bool = true) -> void:
 	param.set_circle(in_pos, out_pos, enable_circle_type)
+
+#endregion
+
+#region Helper Methods for Presets
+
+## Add a new WipeParams to the preset list with a given name
+func preset_add(preset_name: String, new_params: WipeParams):
+	var new_param_copy: WipeParams = WipeParams.new()
+	new_param_copy.copy(new_params)
+	param_presets[preset_name] = new_param_copy
+
+## Add the current param settings in WipeTool to the preset list with a given name
+func preset_add_current(preset_name: String):
+	var new_param_copy: WipeParams = WipeParams.new()
+	new_param_copy.copy(param)
+	param_presets[preset_name] = new_param_copy
+
+## Apply a preset in WipeTool with the preset's name
+func preset_apply(preset_name: String):
+	var new_param: WipeParams = WipeParams.new(panel)
+	new_param.copy(param_presets[preset_name])
+	new_param._init(panel)
+	param = new_param
+
+## Remove a preset by name
+func preset_remove(preset_name: String):
+	param_presets.erase(preset_name)
 
 #endregion
 

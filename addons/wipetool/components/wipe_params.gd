@@ -5,10 +5,19 @@ class_name WipeParams
 
 #region Param Init and Node References
 
-func _init(panel: ColorRect):
+func _init(panel: ColorRect = null):
 	panel_ref = panel
 
-## Reference to panel node used in transitions
+func copy(other: WipeParams):
+	wipe_duration = other.wipe_duration
+	wipe_in_type = other.wipe_in_type
+	wipe_out_type = other.wipe_out_type
+	wipe_color = other.wipe_color
+	wipe_circle_in_pos = other.wipe_circle_in_pos
+	wipe_circle_out_pos = other.wipe_circle_out_pos
+
+## Reference to panel node used in transitions.
+## Don't set this manually, this is automatically set by WipeTool when needed.
 var panel_ref: ColorRect
 
 #endregion
@@ -18,7 +27,9 @@ var panel_ref: ColorRect
 ## Is the wipe ColorRect currently visible? Set by methods, not meant to be manually changed
 var wipe_is_visible: bool = false:
 	set(value):
-		panel_ref.visible = value
+		if panel_ref:
+			panel_ref.visible = value
+			
 		wipe_is_visible = value
 	get:
 		return wipe_is_visible
@@ -26,7 +37,9 @@ var wipe_is_visible: bool = false:
 ## Color of ColorRect used in the wipe animations
 var wipe_color: Color = Color.BLACK:
 	set(value):
-		panel_ref.color = value
+		if panel_ref:
+			panel_ref.color = value
+		
 		wipe_color = value
 	get:
 		return wipe_color
