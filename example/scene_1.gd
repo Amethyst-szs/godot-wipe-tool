@@ -5,8 +5,16 @@ signal mouse_button
 @onready var option_in: OptionButton = %OptionIn
 @onready var option_out: OptionButton = %OptionOut
 
+var preset_name: String = ""
+
+#region Ready, Input, and Reset Functions
+
 func _ready():
-	for wipe_type in range(Wipe.Type.size()):		
+	%PresetManagerPanel.visible = false
+	prepare()
+
+func prepare():
+	for wipe_type in range(Wipe.Type.size()):
 		option_in.add_item(Wipe.Type.keys()[wipe_type], wipe_type)
 		option_out.add_item(Wipe.Type.keys()[wipe_type], wipe_type)
 	
@@ -25,6 +33,8 @@ func _ready():
 	
 	_on_option_in_item_selected(WipeTool.param.wipe_in_type)
 	_on_option_out_item_selected(WipeTool.param.wipe_out_type)
+	
+	_update_preset_list()
 
 func _input(event: InputEvent):
 	if event is InputEventMouseButton:
@@ -33,7 +43,11 @@ func _input(event: InputEvent):
 func reset_interface():
 	option_in.clear()
 	option_out.clear()
-	_ready()
+	prepare()
+
+#endregion
+
+#region Wipe settings functions
 
 func _on_slider_duration_value_changed(value):
 	WipeTool.param.wipe_duration = value
@@ -67,6 +81,10 @@ func _on_circle_out_y_value_changed(value):
 func _on_button_color_color_changed(color: Color):
 	WipeTool.param.wipe_color = color
 
+#endregion
+
+#region Grid Button Functions
+
 func _on_button_close_pressed():
 	WipeTool.wipe_close()
 
@@ -98,3 +116,42 @@ func _on_button_pre_crossfade_pressed():
 	WipeTool.param_reset()
 	WipeTool.param_set(Wipe.Type.crossfade, Wipe.Type.crossfade, 0.5)
 	reset_interface()
+
+#endregion
+
+#region Preset Manager
+
+func _on_preset_manager_toggle_toggled(toggled_on):
+	%PresetManagerPanel.visible = toggled_on
+
+func _on_preset_name_text_changed(new_text):
+	preset_name = new_text
+
+func _update_preset_list():
+	var all_presets: String = ""
+	
+	for item in range(WipeTool.param_presets.size()):
+		all_presets += "%s\n" % [WipeTool.param_presets.keys()[item]]
+	
+	%PresetList.text = all_presets
+
+func _on_preset_create_pressed():
+	if not preset_name.is_empty():
+		WipeTool.preset_add_current(preset_name)
+		_update_preset_list()
+
+func _on_preset_apply_pressed():
+	if not preset_name.is_empty():
+		WipeTool.preset_apply(preset_name)
+		reset_interface()
+
+func _on_preset_delete_pressed():
+	if not preset_name.is_empty():
+		WipeTool.preset_remove(preset_name)
+		_update_preset_list()
+		
+func _on_preset_delete_all_pressed():
+	WipeTool.preset_remove_all()
+	_update_preset_list()
+
+#endregion

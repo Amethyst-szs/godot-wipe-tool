@@ -245,18 +245,26 @@ func param_circle(in_pos: Vector2, out_pos: Vector2, enable_circle_type: bool = 
 
 ## Add a new WipeParams to the preset list with a given name
 func preset_add(preset_name: String, new_params: WipeParams):
+	preset_remove(preset_name)
+	
 	var new_param_copy: WipeParams = WipeParams.new()
 	new_param_copy.copy(new_params)
 	param_presets[preset_name] = new_param_copy
 
 ## Add the current param settings in WipeTool to the preset list with a given name
 func preset_add_current(preset_name: String):
+	preset_remove(preset_name)
+	
 	var new_param_copy: WipeParams = WipeParams.new()
 	new_param_copy.copy(param)
 	param_presets[preset_name] = new_param_copy
 
 ## Apply a preset in WipeTool with the preset's name
 func preset_apply(preset_name: String):
+	if not param_presets.has(preset_name):
+		push_warning("WipeTool: Attempted to apply WipeParams preset that doesn't exist!")
+		return
+	
 	var new_param: WipeParams = WipeParams.new(panel)
 	new_param.copy(param_presets[preset_name])
 	new_param._init(panel)
@@ -265,6 +273,10 @@ func preset_apply(preset_name: String):
 ## Remove a preset by name
 func preset_remove(preset_name: String):
 	param_presets.erase(preset_name)
+
+# Delete every single wipe preset
+func preset_remove_all():
+	param_presets.clear()
 
 #endregion
 

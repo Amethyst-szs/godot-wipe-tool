@@ -23,81 +23,93 @@ theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
-[node name="PanelContainer" type="PanelContainer" parent="Margin"]
+[node name="WindowSplit" type="SplitContainer" parent="Margin"]
+layout_mode = 2
+split_offset = 760
+
+[node name="MainPanel" type="PanelContainer" parent="Margin/WindowSplit"]
 layout_mode = 2
 
-[node name="Sub-Margin" type="MarginContainer" parent="Margin/PanelContainer"]
+[node name="Sub-Margin" type="MarginContainer" parent="Margin/WindowSplit/MainPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBox" type="VBoxContainer" parent="Margin/PanelContainer/Sub-Margin"]
+[node name="VBox" type="VBoxContainer" parent="Margin/WindowSplit/MainPanel/Sub-Margin"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+[node name="Header" type="HBoxContainer" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox"]
 layout_mode = 2
-text = "WipeTool Testing Scene (1)"
-horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+[node name="Label" type="Label" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "WipeTool Example & Testing Scene"
+
+[node name="PresetManagerToggle" type="CheckButton" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Header"]
+layout_mode = 2
+text = "Preset Manager"
+alignment = 2
+
+[node name="HSeparator" type="HSeparator" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="LabelDuration" type="Label" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+[node name="LabelDuration" type="Label" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox"]
 layout_mode = 2
 text = "Duration of Transition:"
 horizontal_alignment = 1
 
-[node name="SliderDuration" type="HSlider" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+[node name="SliderDuration" type="HSlider" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 max_value = 3.0
 step = 0.1
 value = 1.0
 
-[node name="HSeparator2" type="HSeparator" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+[node name="HSeparator2" type="HSeparator" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="LabelInOut" type="Label" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+[node name="LabelInOut" type="Label" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox"]
 layout_mode = 2
 text = "In/Out Type:"
 horizontal_alignment = 1
 
-[node name="HBoxInOut" type="HBoxContainer" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+[node name="HBoxInOut" type="HBoxContainer" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox"]
 layout_mode = 2
 alignment = 1
 
-[node name="LabelIn" type="Label" parent="Margin/PanelContainer/Sub-Margin/VBox/HBoxInOut"]
+[node name="LabelIn" type="Label" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/HBoxInOut"]
 layout_mode = 2
 text = "In: "
 horizontal_alignment = 1
 
-[node name="OptionIn" type="OptionButton" parent="Margin/PanelContainer/Sub-Margin/VBox/HBoxInOut"]
+[node name="OptionIn" type="OptionButton" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/HBoxInOut"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="VSeparator" type="VSeparator" parent="Margin/PanelContainer/Sub-Margin/VBox/HBoxInOut"]
+[node name="VSeparator" type="VSeparator" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/HBoxInOut"]
 layout_mode = 2
 theme_override_constants/separation = 35
 
-[node name="LabelOut" type="Label" parent="Margin/PanelContainer/Sub-Margin/VBox/HBoxInOut"]
+[node name="LabelOut" type="Label" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/HBoxInOut"]
 layout_mode = 2
 text = "Out: "
 horizontal_alignment = 1
 
-[node name="OptionOut" type="OptionButton" parent="Margin/PanelContainer/Sub-Margin/VBox/HBoxInOut"]
+[node name="OptionOut" type="OptionButton" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/HBoxInOut"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="CircleSettings" type="HBoxContainer" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+[node name="CircleSettings" type="HBoxContainer" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox"]
 layout_mode = 2
 size_flags_vertical = 4
 alignment = 1
 
-[node name="CircleInX" type="SpinBox" parent="Margin/PanelContainer/Sub-Margin/VBox/CircleSettings"]
+[node name="CircleInX" type="SpinBox" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/CircleSettings"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -108,7 +120,7 @@ alignment = 1
 prefix = "C In"
 suffix = "X"
 
-[node name="CircleInY" type="SpinBox" parent="Margin/PanelContainer/Sub-Margin/VBox/CircleSettings"]
+[node name="CircleInY" type="SpinBox" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/CircleSettings"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -119,7 +131,7 @@ alignment = 1
 prefix = "C In"
 suffix = "Y"
 
-[node name="CircleOutX" type="SpinBox" parent="Margin/PanelContainer/Sub-Margin/VBox/CircleSettings"]
+[node name="CircleOutX" type="SpinBox" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/CircleSettings"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -130,7 +142,7 @@ alignment = 1
 prefix = "C Out"
 suffix = "X"
 
-[node name="CircleOutY" type="SpinBox" parent="Margin/PanelContainer/Sub-Margin/VBox/CircleSettings"]
+[node name="CircleOutY" type="SpinBox" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/CircleSettings"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -141,106 +153,176 @@ alignment = 1
 prefix = "C Out"
 suffix = "Y"
 
-[node name="HSeparator3" type="HSeparator" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+[node name="HSeparator3" type="HSeparator" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="LabelColor" type="Label" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+[node name="LabelColor" type="Label" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox"]
 layout_mode = 2
 text = "Transition Color:"
 horizontal_alignment = 1
 
-[node name="ButtonColor" type="ColorPickerButton" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+[node name="ButtonColor" type="ColorPickerButton" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Transition Color"
 edit_alpha = false
 
-[node name="HSeparator4" type="HSeparator" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+[node name="HSeparator4" type="HSeparator" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="Grid" type="GridContainer" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+[node name="Grid" type="GridContainer" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox"]
 layout_mode = 2
 columns = 3
 
-[node name="ButtonClose" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+[node name="ButtonClose" type="Button" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 tooltip_text = "Fade in wipe with current settings"
 text = "Wipe Close"
 
-[node name="ButtonOpen" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+[node name="ButtonOpen" type="Button" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 tooltip_text = "Fade out wipe with current settings"
 text = "Wipe Open"
 
-[node name="ButtonCloseOpen" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+[node name="ButtonCloseOpen" type="Button" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 tooltip_text = "Fade in and out wipe with current settings"
 text = "Wipe Close and Open"
 
-[node name="ButtonCondition" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+[node name="ButtonCondition" type="Button" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 tooltip_text = "Fade in and out wipe with current settings, but it'll only open after clicking the mouse"
 text = "Wipe w/ Condition"
 
-[node name="ButtonScene" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+[node name="ButtonScene" type="Button" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 tooltip_text = "Wipe and reload this scene"
 text = "Wipe to Scene (Self)"
 
-[node name="ButtonSceneOther" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+[node name="ButtonSceneOther" type="Button" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 tooltip_text = "Wipe and go to a different scene"
 text = "Wipe to Scene (Other)"
 
-[node name="ButtonReset" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+[node name="ButtonReset" type="Button" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-tooltip_text = "Wipe and go to a different scene"
+tooltip_text = "Reset all wipe settings to default"
 text = "Reset Parameters"
 
-[node name="ButtonPreCircle" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+[node name="ButtonPreCircle" type="Button" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-tooltip_text = "Wipe and go to a different scene"
-text = "Preset (Circle Corners)"
+tooltip_text = "Apply a preset wipe params to test out the circle transition"
+text = "Quick Test - Circle Type"
 
-[node name="ButtonPreCrossfade" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+[node name="ButtonPreCrossfade" type="Button" parent="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-tooltip_text = "Wipe and go to a different scene"
-text = "Preset (Crossfade)"
+tooltip_text = "Apply a preset wipe params to test out the crossfade transition"
+text = "Quick Test - Crossfade"
 
-[connection signal="value_changed" from="Margin/PanelContainer/Sub-Margin/VBox/SliderDuration" to="." method="_on_slider_duration_value_changed"]
-[connection signal="item_selected" from="Margin/PanelContainer/Sub-Margin/VBox/HBoxInOut/OptionIn" to="." method="_on_option_in_item_selected"]
-[connection signal="item_selected" from="Margin/PanelContainer/Sub-Margin/VBox/HBoxInOut/OptionOut" to="." method="_on_option_out_item_selected"]
-[connection signal="value_changed" from="Margin/PanelContainer/Sub-Margin/VBox/CircleSettings/CircleInX" to="." method="_on_circle_in_x_value_changed"]
-[connection signal="value_changed" from="Margin/PanelContainer/Sub-Margin/VBox/CircleSettings/CircleInY" to="." method="_on_circle_in_y_value_changed"]
-[connection signal="value_changed" from="Margin/PanelContainer/Sub-Margin/VBox/CircleSettings/CircleOutX" to="." method="_on_circle_out_x_value_changed"]
-[connection signal="value_changed" from="Margin/PanelContainer/Sub-Margin/VBox/CircleSettings/CircleOutY" to="." method="_on_circle_out_y_value_changed"]
-[connection signal="color_changed" from="Margin/PanelContainer/Sub-Margin/VBox/ButtonColor" to="." method="_on_button_color_color_changed"]
-[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonClose" to="." method="_on_button_close_pressed"]
-[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonOpen" to="." method="_on_button_open_pressed"]
-[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonCloseOpen" to="." method="_on_button_close_open_pressed"]
-[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonCondition" to="." method="_on_button_condition_pressed"]
-[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonScene" to="." method="_on_button_scene_pressed"]
-[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonSceneOther" to="." method="_on_button_scene_other_pressed"]
-[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonReset" to="." method="_on_button_reset_pressed"]
-[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonPreCircle" to="." method="_on_button_pre_circle_pressed"]
-[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonPreCrossfade" to="." method="_on_button_pre_crossfade_pressed"]
+[node name="PresetManagerPanel" type="PanelContainer" parent="Margin/WindowSplit"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Sub-Margin" type="MarginContainer" parent="Margin/WindowSplit/PresetManagerPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="PresetPanelList" type="VBoxContainer" parent="Margin/WindowSplit/PresetManagerPanel/Sub-Margin"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Margin/WindowSplit/PresetManagerPanel/Sub-Margin/PresetPanelList"]
+layout_mode = 2
+text = "Preset Manager"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Margin/WindowSplit/PresetManagerPanel/Sub-Margin/PresetPanelList"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="PresetName" type="LineEdit" parent="Margin/WindowSplit/PresetManagerPanel/Sub-Margin/PresetPanelList"]
+layout_mode = 2
+placeholder_text = "Preset Name Here"
+alignment = 1
+max_length = 16
+caret_blink = true
+
+[node name="PresetCreate" type="Button" parent="Margin/WindowSplit/PresetManagerPanel/Sub-Margin/PresetPanelList"]
+layout_mode = 2
+text = "Create Preset"
+
+[node name="PresetApply" type="Button" parent="Margin/WindowSplit/PresetManagerPanel/Sub-Margin/PresetPanelList"]
+layout_mode = 2
+text = "Apply Preset"
+
+[node name="PresetDelete" type="Button" parent="Margin/WindowSplit/PresetManagerPanel/Sub-Margin/PresetPanelList"]
+layout_mode = 2
+text = "Delete Preset"
+
+[node name="PresetDeleteAll" type="Button" parent="Margin/WindowSplit/PresetManagerPanel/Sub-Margin/PresetPanelList"]
+layout_mode = 2
+text = "Delete All Presets"
+
+[node name="HSeparator2" type="HSeparator" parent="Margin/WindowSplit/PresetManagerPanel/Sub-Margin/PresetPanelList"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Label2" type="Label" parent="Margin/WindowSplit/PresetManagerPanel/Sub-Margin/PresetPanelList"]
+layout_mode = 2
+text = "Created Presets"
+horizontal_alignment = 1
+
+[node name="PresetList" type="TextEdit" parent="Margin/WindowSplit/PresetManagerPanel/Sub-Margin/PresetPanelList"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "No presets created!"
+editable = false
+scroll_smooth = true
+
+[connection signal="toggled" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Header/PresetManagerToggle" to="." method="_on_preset_manager_toggle_toggled"]
+[connection signal="value_changed" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/SliderDuration" to="." method="_on_slider_duration_value_changed"]
+[connection signal="item_selected" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/HBoxInOut/OptionIn" to="." method="_on_option_in_item_selected"]
+[connection signal="item_selected" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/HBoxInOut/OptionOut" to="." method="_on_option_out_item_selected"]
+[connection signal="value_changed" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/CircleSettings/CircleInX" to="." method="_on_circle_in_x_value_changed"]
+[connection signal="value_changed" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/CircleSettings/CircleInY" to="." method="_on_circle_in_y_value_changed"]
+[connection signal="value_changed" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/CircleSettings/CircleOutX" to="." method="_on_circle_out_x_value_changed"]
+[connection signal="value_changed" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/CircleSettings/CircleOutY" to="." method="_on_circle_out_y_value_changed"]
+[connection signal="color_changed" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/ButtonColor" to="." method="_on_button_color_color_changed"]
+[connection signal="pressed" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid/ButtonClose" to="." method="_on_button_close_pressed"]
+[connection signal="pressed" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid/ButtonOpen" to="." method="_on_button_open_pressed"]
+[connection signal="pressed" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid/ButtonCloseOpen" to="." method="_on_button_close_open_pressed"]
+[connection signal="pressed" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid/ButtonCondition" to="." method="_on_button_condition_pressed"]
+[connection signal="pressed" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid/ButtonScene" to="." method="_on_button_scene_pressed"]
+[connection signal="pressed" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid/ButtonSceneOther" to="." method="_on_button_scene_other_pressed"]
+[connection signal="pressed" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid/ButtonReset" to="." method="_on_button_reset_pressed"]
+[connection signal="pressed" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid/ButtonPreCircle" to="." method="_on_button_pre_circle_pressed"]
+[connection signal="pressed" from="Margin/WindowSplit/MainPanel/Sub-Margin/VBox/Grid/ButtonPreCrossfade" to="." method="_on_button_pre_crossfade_pressed"]
+[connection signal="text_changed" from="Margin/WindowSplit/PresetManagerPanel/Sub-Margin/PresetPanelList/PresetName" to="." method="_on_preset_name_text_changed"]
+[connection signal="pressed" from="Margin/WindowSplit/PresetManagerPanel/Sub-Margin/PresetPanelList/PresetCreate" to="." method="_on_preset_create_pressed"]
+[connection signal="pressed" from="Margin/WindowSplit/PresetManagerPanel/Sub-Margin/PresetPanelList/PresetApply" to="." method="_on_preset_apply_pressed"]
+[connection signal="pressed" from="Margin/WindowSplit/PresetManagerPanel/Sub-Margin/PresetPanelList/PresetDelete" to="." method="_on_preset_delete_pressed"]
+[connection signal="pressed" from="Margin/WindowSplit/PresetManagerPanel/Sub-Margin/PresetPanelList/PresetDeleteAll" to="." method="_on_preset_delete_all_pressed"]
