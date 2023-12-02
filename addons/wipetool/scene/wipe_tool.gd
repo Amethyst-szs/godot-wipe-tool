@@ -269,13 +269,13 @@ func wipe_with_scene_change(scene_path: String) -> void:
 	else:
 		await async_load_finished
 	
+	wipe_in_finished.emit()
+	
 	# Swap scenes, skipping uncapturing the viewport if using a scene transition
 	if param.wipe_out_type < Wipe.Type.CAPTURE_TRANSITIONS:
 		_uncapture_viewport()
 	get_tree().change_scene_to_packed(ResourceLoader.load_threaded_get(scene_path))
 	get_tree().paused = false
-	
-	wipe_in_finished.emit()
 	
 	_update_shader_params(param.wipe_circle_out_pos)
 	
