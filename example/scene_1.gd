@@ -103,6 +103,9 @@ func _on_button_scene_pressed():
 func _on_button_scene_other_pressed():
 	WipeTool.wipe_with_scene_change("res://example/scene_2.tscn")
 
+func _on_button_scene_other_no_wipe_pressed():
+	WipeTool.scene_change("res://example/scene_2.tscn")
+
 func _on_button_reset_pressed():
 	WipeTool.param_reset()
 	reset_interface()
@@ -155,3 +158,4 @@ func _on_preset_delete_all_pressed():
 	_update_preset_list()
 
 #endregion
+

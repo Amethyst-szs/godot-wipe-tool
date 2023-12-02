@@ -215,6 +215,15 @@ func wipe_with_scene_change(scene_path: String) -> void:
 	param.wipe_is_visible = false
 	_uncapture_viewport()
 
+## Change scenes with async without playing any wipe animation
+func scene_change(scene_path: String) -> void:
+	# Start loading the scene data on another thread
+	_threaded_load(scene_path)
+	await async_load_finished
+	
+	get_tree().change_scene_to_packed(ResourceLoader.load_threaded_get(scene_path))
+	_uncapture_viewport()
+
 #endregion
 
 #region Helper Methods for Param Editing
