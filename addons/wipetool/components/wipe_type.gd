@@ -3,11 +3,13 @@ class_name Wipe
 
 ## Every type of wipe in the animation player
 enum Type {
+	NONE,
 	fade,
 	slide_left,
 	slide_right,
 	slide_up,
 	slide_down,
+	circle,
 	
 	CAPTURE_TRANSITIONS, # All wipes after this point will always capture the viewport
 	crossfade,

@@ -92,6 +92,55 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="CircleSettings" type="HBoxContainer" parent="Margin/PanelContainer/Sub-Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 4
+alignment = 1
+
+[node name="CircleInX" type="SpinBox" parent="Margin/PanelContainer/Sub-Margin/VBox/CircleSettings"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 0.5
+alignment = 1
+prefix = "C In"
+suffix = "X"
+
+[node name="CircleInY" type="SpinBox" parent="Margin/PanelContainer/Sub-Margin/VBox/CircleSettings"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 0.5
+alignment = 1
+prefix = "C In"
+suffix = "Y"
+
+[node name="CircleOutX" type="SpinBox" parent="Margin/PanelContainer/Sub-Margin/VBox/CircleSettings"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 0.5
+alignment = 1
+prefix = "C Out"
+suffix = "X"
+
+[node name="CircleOutY" type="SpinBox" parent="Margin/PanelContainer/Sub-Margin/VBox/CircleSettings"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 0.5
+alignment = 1
+prefix = "C Out"
+suffix = "Y"
+
 [node name="HSeparator3" type="HSeparator" parent="Margin/PanelContainer/Sub-Margin/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 30
@@ -157,9 +206,34 @@ size_flags_vertical = 4
 tooltip_text = "Wipe and go to a different scene"
 text = "Wipe to Scene (Other)"
 
+[node name="ButtonReset" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+tooltip_text = "Wipe and go to a different scene"
+text = "Reset Parameters"
+
+[node name="ButtonPreCircle" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+tooltip_text = "Wipe and go to a different scene"
+text = "Preset (Circle Corners)"
+
+[node name="ButtonPreCrossfade" type="Button" parent="Margin/PanelContainer/Sub-Margin/VBox/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+tooltip_text = "Wipe and go to a different scene"
+text = "Preset (Crossfade)"
+
 [connection signal="value_changed" from="Margin/PanelContainer/Sub-Margin/VBox/SliderDuration" to="." method="_on_slider_duration_value_changed"]
 [connection signal="item_selected" from="Margin/PanelContainer/Sub-Margin/VBox/HBoxInOut/OptionIn" to="." method="_on_option_in_item_selected"]
 [connection signal="item_selected" from="Margin/PanelContainer/Sub-Margin/VBox/HBoxInOut/OptionOut" to="." method="_on_option_out_item_selected"]
+[connection signal="value_changed" from="Margin/PanelContainer/Sub-Margin/VBox/CircleSettings/CircleInX" to="." method="_on_circle_in_x_value_changed"]
+[connection signal="value_changed" from="Margin/PanelContainer/Sub-Margin/VBox/CircleSettings/CircleInY" to="." method="_on_circle_in_y_value_changed"]
+[connection signal="value_changed" from="Margin/PanelContainer/Sub-Margin/VBox/CircleSettings/CircleOutX" to="." method="_on_circle_out_x_value_changed"]
+[connection signal="value_changed" from="Margin/PanelContainer/Sub-Margin/VBox/CircleSettings/CircleOutY" to="." method="_on_circle_out_y_value_changed"]
 [connection signal="color_changed" from="Margin/PanelContainer/Sub-Margin/VBox/ButtonColor" to="." method="_on_button_color_color_changed"]
 [connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonClose" to="." method="_on_button_close_pressed"]
 [connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonOpen" to="." method="_on_button_open_pressed"]
@@ -167,3 +241,6 @@ text = "Wipe to Scene (Other)"
 [connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonCondition" to="." method="_on_button_condition_pressed"]
 [connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonScene" to="." method="_on_button_scene_pressed"]
 [connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonSceneOther" to="." method="_on_button_scene_other_pressed"]
+[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonReset" to="." method="_on_button_reset_pressed"]
+[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonPreCircle" to="." method="_on_button_pre_circle_pressed"]
+[connection signal="pressed" from="Margin/PanelContainer/Sub-Margin/VBox/Grid/ButtonPreCrossfade" to="." method="_on_button_pre_crossfade_pressed"]
