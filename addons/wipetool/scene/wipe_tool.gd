@@ -1,11 +1,6 @@
 extends CanvasLayer
 
-# Signals
-
-## Signal notifying that the async scene loading is completed
-signal async_load_finished
-
-# Node References
+#region Node References
 
 ## ColorRect used for the wipe animations
 @onready var panel: ColorRect = $Panel
@@ -14,6 +9,10 @@ signal async_load_finished
 ## TextureRect that contains a screenshot of the viewport during scene transitions
 @onready var view_capture: TextureRect = $ViewCapture
 
+#endregion
+
+#region Param & Preset Variables
+
 ## All parameters configuring how the wipe transition looks
 @onready var param: WipeParams = WipeParams.new(panel)
 
@@ -21,6 +20,33 @@ signal async_load_finished
 ## Recommended for commonly used transitions so it's easier to update them later and switch on the fly.
 ## Modify using the preset functions, don't directly push to this dictionary yourself.
 var param_presets: Dictionary = {}
+
+#endregion
+
+#region Signals
+
+## Signal emitted when a wipe in animation is started
+signal wipe_in_started
+
+## Signal emitted when a wipe in animation is fully finished
+signal wipe_in_finished
+
+## Signal emitted when a wipe out animation is start
+signal wipe_out_started
+
+## Signal emitted when a wipe out animatiom is fully finished
+signal wipe_out_finished
+
+## Signal emitted when a wipe captures the viewport and displays that screenshot over your scene
+signal wipe_viewport_captured
+
+## Signal emitted when a wipe uncaptures the viewport and goes back to showing your regular scene
+signal wipe_viewport_uncaptured
+
+## Signal notifying that the async scene loading is completed
+signal async_load_finished
+
+#endregion
 
 #region Built-in Methods
 
@@ -41,6 +67,8 @@ func _process(_delta: float) -> void:
 
 ## Close wipe, will not automatically open until "wipe_open" is called
 func wipe_close() -> void:
+	wipe_in_started.emit()
+	
 	# Play the in/closing animation with no condition, end-user is expected to open it again themselves
 	var in_string: String = "in_" + Wipe.Type.keys()[param.wipe_in_type]
 	
@@ -53,11 +81,16 @@ func wipe_close() -> void:
 	# If the wipe type is a standard non-capture transition, play animation here
 	if param.wipe_in_type < Wipe.Type.CAPTURE_TRANSITIONS and not param.wipe_in_type == Wipe.Type.NONE:
 		anim_player.play(in_string, -1, 1.0 / param.wipe_duration)
+		await anim_player.animation_finished
 	else: # If the wipe is a capture transition, capture viewport here
 		_capture_viewport()
+	
+	wipe_in_finished.emit()
 
 ## Open wipe, will play animation even if wipe was not closed
 func wipe_open() -> void:
+	wipe_out_started.emit()
+	
 	# Play the out/opening animation with no condition
 	var out_string: String = "out_" + Wipe.Type.keys()[param.wipe_out_type]
 	
@@ -77,9 +110,13 @@ func wipe_open() -> void:
 	# Reset flag for wipe visibility and force uncapture viewport
 	param.wipe_is_visible = false
 	_uncapture_viewport()
+	
+	wipe_out_finished.emit()
 
 ## Close the wipe, and once the close completes, instantly open it again
 func wipe_close_and_open() -> void:
+	wipe_in_started.emit()
+	
 	# Convert the in_type and out_type to strings
 	var in_string: String = "in_" + Wipe.Type.keys()[param.wipe_in_type]
 	var out_string: String = "out_" + Wipe.Type.keys()[param.wipe_out_type]
@@ -101,8 +138,12 @@ func wipe_close_and_open() -> void:
 		if not param.wipe_in_type == Wipe.Type.NONE:
 			_capture_viewport()
 	
+	wipe_in_finished.emit()
+	
 	_update_shader_params(param.wipe_circle_out_pos)
-		
+	
+	wipe_out_started.emit()
+	
 	# Play out animation if type is not NONE
 	if not param.wipe_out_type == Wipe.Type.NONE:
 		anim_player.play(out_string, -1, 1.0 / param.wipe_duration)
@@ -113,9 +154,13 @@ func wipe_close_and_open() -> void:
 	# Reset flag for wipe visibility and force uncapture viewport
 	param.wipe_is_visible = false
 	_uncapture_viewport()
+	
+	wipe_out_finished.emit()
 
 ## Close the wipe, wait for the signal to be emitted, and then open it
 func wipe_with_signal(open_condition: Signal) -> void:
+	wipe_in_started.emit()
+	
 	# Convert the in_type and out_type to strings
 	var in_string: String = "in_" + Wipe.Type.keys()[param.wipe_in_type]
 	var out_string: String = "out_" + Wipe.Type.keys()[param.wipe_out_type]
@@ -142,7 +187,11 @@ func wipe_with_signal(open_condition: Signal) -> void:
 		
 		await open_condition
 	
+	wipe_in_finished.emit()
+	
 	_update_shader_params(param.wipe_circle_out_pos)
+	
+	wipe_out_started.emit()
 	
 	# Play out animation if type is not NONE
 	if not param.wipe_out_type == Wipe.Type.NONE:
@@ -154,6 +203,8 @@ func wipe_with_signal(open_condition: Signal) -> void:
 	# Reset flag for wipe visibility and force uncapture viewport
 	param.wipe_is_visible = false
 	_uncapture_viewport()
+	
+	wipe_out_finished.emit()
 
 #endregion
 
@@ -172,9 +223,13 @@ func _capture_viewport() -> void:
 	var image: Image = get_viewport().get_texture().get_image()
 	view_capture.visible = true
 	view_capture.texture = ImageTexture.create_from_image(image)
+	wipe_viewport_captured.emit()
 
 # Destroy sceenshot of viewport and hide view_capture
 func _uncapture_viewport() -> void:
+	if view_capture.visible:
+		wipe_viewport_uncaptured.emit()
+	
 	view_capture.visible = false
 	view_capture.texture = null
 
@@ -185,6 +240,8 @@ func wipe_with_scene_change(scene_path: String) -> void:
 	
 	# Screenshot viewport and display that static image during in anim
 	_capture_viewport()
+	
+	wipe_in_started.emit()
 	
 	# Convert the in_type and out_type to strings
 	var in_string: String = "in_" + Wipe.Type.keys()[param.wipe_in_type]
@@ -218,7 +275,11 @@ func wipe_with_scene_change(scene_path: String) -> void:
 	get_tree().change_scene_to_packed(ResourceLoader.load_threaded_get(scene_path))
 	get_tree().paused = false
 	
+	wipe_in_finished.emit()
+	
 	_update_shader_params(param.wipe_circle_out_pos)
+	
+	wipe_out_started.emit()
 	
 	# Play out animation if type is not NONE
 	if not param.wipe_out_type == Wipe.Type.NONE:
@@ -230,6 +291,8 @@ func wipe_with_scene_change(scene_path: String) -> void:
 	# Reset flag for wipe visibility and force uncapture viewport
 	param.wipe_is_visible = false
 	_uncapture_viewport()
+	
+	wipe_out_finished.emit()
 
 ## Change scenes with async without playing any wipe animation
 func scene_change(scene_path: String) -> void:
