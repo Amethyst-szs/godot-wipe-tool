@@ -14,7 +14,12 @@ extends CanvasLayer
 #region Param & Preset Variables
 
 ## All parameters configuring how the wipe transition looks
-@onready var param: WipeParams = WipeParams.new(panel)
+@onready var param: WipeParams = WipeParams.new(panel):
+	set(value):
+		param = value
+		param.panel_ref = panel
+	get:
+		return param
 
 ## Dictionary for wipe param presets created by the end-user.
 ## Recommended for commonly used transitions so it's easier to update them later and switch on the fly.
