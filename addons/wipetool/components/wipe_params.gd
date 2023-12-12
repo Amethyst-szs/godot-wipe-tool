@@ -72,7 +72,7 @@ func set_normal(in_type: Wipe.Type = Wipe.Type.NONE, out_type: Wipe.Type = Wipe.
 	if not duration == -1.0: wipe_duration = duration
 	if not in_type == Wipe.Type.NONE: wipe_in_type = in_type
 	if not out_type == Wipe.Type.NONE: wipe_out_type = out_type
-	if not color == Color.TRANSPARENT: color = wipe_color
+	if not color == Color.TRANSPARENT: wipe_color = color
 
 func set_wipes(in_type: Wipe.Type, out_type: Wipe.Type) -> void:
 	wipe_in_type = in_type
