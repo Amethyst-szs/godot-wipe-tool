@@ -81,6 +81,7 @@ func wipe_close() -> void:
 	await anim_player.animation_finished
 	param.wipe_is_visible = true
 	
+	panel.color = param.wipe_color
 	_update_shader_params(param.wipe_circle_in_pos)
 	
 	# If the wipe type is a standard non-capture transition, play animation here
@@ -103,6 +104,7 @@ func wipe_open() -> void:
 	await anim_player.animation_finished
 	param.wipe_is_visible = true
 	
+	panel.color = param.wipe_color
 	_update_shader_params(param.wipe_circle_out_pos)
 	
 	# Play out animation if type is not NONE
@@ -131,6 +133,7 @@ func wipe_close_and_open() -> void:
 	await anim_player.animation_finished
 	param.wipe_is_visible = true
 	
+	panel.color = param.wipe_color
 	_update_shader_params(param.wipe_circle_in_pos)
 	
 	# Play the in animation, wait for the animation to finish, then play the out animation
@@ -145,6 +148,7 @@ func wipe_close_and_open() -> void:
 	
 	wipe_in_finished.emit()
 	
+	panel.color = param.wipe_color
 	_update_shader_params(param.wipe_circle_out_pos)
 	
 	wipe_out_started.emit()
@@ -175,6 +179,7 @@ func wipe_with_signal(open_condition: Signal) -> void:
 	await anim_player.animation_finished
 	param.wipe_is_visible = true
 	
+	panel.color = param.wipe_color
 	_update_shader_params(param.wipe_circle_in_pos)
 	
 	# If the wipe type is a standard non-capture transition, play in animation here
@@ -194,6 +199,7 @@ func wipe_with_signal(open_condition: Signal) -> void:
 	
 	wipe_in_finished.emit()
 	
+	panel.color = param.wipe_color
 	_update_shader_params(param.wipe_circle_out_pos)
 	
 	wipe_out_started.emit()
@@ -260,6 +266,7 @@ func wipe_with_scene_change(scene_path: String) -> void:
 	# Start loading the scene data on another thread
 	_threaded_load(scene_path)
 	
+	panel.color = param.wipe_color
 	_update_shader_params(param.wipe_circle_in_pos)
 	
 	# If the wipe type is a standard non-capture transition, play animation here
@@ -282,6 +289,7 @@ func wipe_with_scene_change(scene_path: String) -> void:
 	get_tree().change_scene_to_packed(ResourceLoader.load_threaded_get(scene_path))
 	get_tree().paused = false
 	
+	panel.color = param.wipe_color
 	_update_shader_params(param.wipe_circle_out_pos)
 	
 	wipe_out_started.emit()
@@ -359,8 +367,8 @@ func preset_apply(preset_name: String):
 		return
 	
 	var new_param: WipeParams = WipeParams.new(panel)
-	new_param.copy(param_presets[preset_name])
 	new_param._init(panel)
+	new_param.copy(param_presets[preset_name])
 	param = new_param
 
 ## Remove a preset by name
