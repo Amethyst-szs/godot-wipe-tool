@@ -190,14 +190,18 @@ func wipe_with_signal(open_condition: Signal) -> void:
 	
 		# Play the in animation, wait for the open_condition signal and anim, then play the out animation
 		anim_player.play(in_string, -1, 1.0 / param.wipe_duration)
+		anim_player.animation_finished.connect(_anim_player_wipe_close_finished.bind(anim_player))
 		await comp_signal.composite_complete
+		
 	else: # If the wipe is a capture transition, capture viewport here and wait for condition
 		if not param.wipe_in_type == Wipe.Type.NONE:
 			_capture_viewport()
 		
 		await open_condition
 	
-	wipe_in_finished.emit()
+	# Check if this node's metadata is storing a reference to a script
+	if has_meta("signal_script_ref"):
+		remove_meta("signal_script_ref")
 	
 	panel.color = param.wipe_color
 	_update_shader_params(param.wipe_circle_out_pos)
@@ -216,6 +220,12 @@ func wipe_with_signal(open_condition: Signal) -> void:
 	_uncapture_viewport()
 	
 	wipe_out_finished.emit()
+
+func _anim_player_wipe_close_finished(name: StringName, anim_player: AnimationPlayer):
+	wipe_in_finished.emit()
+	
+	if anim_player.animation_finished.is_connected(_anim_player_wipe_close_finished):
+		anim_player.animation_finished.disconnect(_anim_player_wipe_close_finished)
 
 #endregion
 
