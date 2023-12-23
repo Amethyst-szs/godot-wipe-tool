@@ -78,7 +78,6 @@ func wipe_close() -> void:
 	var in_string: String = "in_" + Wipe.Type.keys()[param.wipe_in_type]
 	
 	anim_player.play("RESET")
-	await anim_player.animation_finished
 	param.wipe_is_visible = true
 	
 	panel.color = param.wipe_color
@@ -101,7 +100,6 @@ func wipe_open() -> void:
 	var out_string: String = "out_" + Wipe.Type.keys()[param.wipe_out_type]
 	
 	anim_player.play("RESET")
-	await anim_player.animation_finished
 	param.wipe_is_visible = true
 	
 	panel.color = param.wipe_color
