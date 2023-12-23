@@ -90,7 +90,7 @@ func wipe_close() -> void:
 	else: # If the wipe is a capture transition, capture viewport here
 		_capture_viewport()
 	
-	wipe_in_finished.emit()
+	call_deferred("emit_signal", "wipe_in_finished")
 
 ## Open wipe, will play animation even if wipe was not closed
 func wipe_open() -> void:
@@ -116,7 +116,7 @@ func wipe_open() -> void:
 	param.wipe_is_visible = false
 	_uncapture_viewport()
 	
-	wipe_out_finished.emit()
+	call_deferred("emit_signal", "wipe_out_finished")
 
 ## Close the wipe, and once the close completes, instantly open it again
 func wipe_close_and_open() -> void:
